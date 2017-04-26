@@ -13,8 +13,10 @@ namespace ShoppingCart
   //Client needs to be aware of the ProductCatalogue endpoints and how to deserialize the JSON data into the ProductType for the caller service
   public class ProductCatalogueClient : IProductCatalogueClient
   {
+  
+    //In this case our resiliance policy is to retry faile calls a couple times before giving up. We are using the Polly lib
     private static Policy exponentialRetryPolicy =
-      Policy
+      Policy // Uses Polly's fluent API to set up a retry policy with an exponential back-off
         .Handle<Exception>()
         .WaitAndRetryAsync(
           3, 
@@ -27,6 +29,7 @@ namespace ShoppingCart
     private static string getProductPathTemplate =
       "/products?productIds=[{0}]";
 
+    // Wraps calls to the Product Catalog microservices in the retry policy 
     public Task<IEnumerable<ShoppingCartItem>>
       GetShoppingCartItems(int[] productCatalogueIds) =>
       exponentialRetryPolicy
