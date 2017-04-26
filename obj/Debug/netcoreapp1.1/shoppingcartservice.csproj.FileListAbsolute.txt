@@ -1,0 +1,8 @@
+/home/cabox/workspace/web/nancy/shoppingcartservice/bin/Debug/netcoreapp1.1/shoppingcartservice.deps.json
+/home/cabox/workspace/web/nancy/shoppingcartservice/bin/Debug/netcoreapp1.1/shoppingcartservice.runtimeconfig.json
+/home/cabox/workspace/web/nancy/shoppingcartservice/bin/Debug/netcoreapp1.1/shoppingcartservice.runtimeconfig.dev.json
+/home/cabox/workspace/web/nancy/shoppingcartservice/bin/Debug/netcoreapp1.1/shoppingcartservice.dll
+/home/cabox/workspace/web/nancy/shoppingcartservice/bin/Debug/netcoreapp1.1/shoppingcartservice.pdb
+/home/cabox/workspace/web/nancy/shoppingcartservice/obj/Debug/netcoreapp1.1/shoppingcartservice.AssemblyInfo.cs
+/home/cabox/workspace/web/nancy/shoppingcartservice/obj/Debug/netcoreapp1.1/shoppingcartservice.dll
+/home/cabox/workspace/web/nancy/shoppingcartservice/obj/Debug/netcoreapp1.1/shoppingcartservice.pdb
