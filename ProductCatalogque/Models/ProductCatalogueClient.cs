@@ -10,6 +10,7 @@ namespace ShoppingCart
   using Polly;
   using ShoppingCart;
 
+  //Client needs to be aware of the ProductCatalogue endpoints and how to deserialize the JSON data into the ProductType for the caller service
   public class ProductCatalogueClient : IProductCatalogueClient
   {
     private static Policy exponentialRetryPolicy =
@@ -54,14 +55,15 @@ namespace ShoppingCart
         return await httpClient.GetAsync(productsResource).ConfigureAwait(false);
       }
     }
-
+    
+    //Uses Json.Net to deserialize the JSON from the Product Catalog microservices [line 64]
     private static async Task<IEnumerable<ShoppingCartItem>> ConvertToShoppingCartItems(HttpResponseMessage response)
     {
       response.EnsureSuccessStatusCode();
       var products = 
         JsonConvert.DeserializeObject<List<ProductCatalogueProduct>>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
       return
-        products
+        products //Creates a ShoppingCartItem for each product in the response 
           .Select(p => new ShoppingCartItem(
             int.Parse(p.ProductId),
             p.ProductName,
@@ -70,12 +72,16 @@ namespace ShoppingCart
         ));
     }
 
-    private class ProductCatalogueProduct
+    // Uses a private class to represent the product data 
+    private class ProductCatalogueProduct 
     {
       public string ProductId { get; set; }
       public string ProductName { get; set; }
       public string ProductDescription { get; set; }
       public Money Price { get; set; }
     }
+    //NOTE: If you notice this model doesn't use all the properties returned in the JSON object.
+    //  This is because the Shopping Cart microservice doesn't need all the information, so there's 
+    //  no reason to read the remaining properties. Doing so would only introduce unneccessary coupling. 
   }
 }
