@@ -18,9 +18,11 @@ namespace ShoppingCart
         .WaitAndRetryAsync(
           3, 
           attempt => TimeSpan.FromMilliseconds(100 * Math.Pow(2, attempt)), (ex, _) => Console.WriteLine(ex.ToString()));
-
-    private static string productCatalogueBaseUrl =
+    
+    //URL of the fake Product Catalog microservice
+    private static string productCatalogueBaseUrl = 
       @"http://private-05cc8-chapter2productcataloguemicroservice.apiary-mock.com";
+      
     private static string getProductPathTemplate =
       "/products?productIds=[{0}]";
 
@@ -36,14 +38,19 @@ namespace ShoppingCart
         RequestProductFromProductCatalogue(productCatalogueIds).ConfigureAwait(false);
       return await ConvertToShoppingCartItems(response).ConfigureAwait(false);
     }
-
+    
+    //Adds the product IDS as a query string parameter to the path of the /products endpoint
     private static async Task<HttpResponseMessage> RequestProductFromProductCatalogue(int[] productCatalogueIds)
     {
       var productsResource = string.Format(
         getProductPathTemplate, string.Join(",", productCatalogueIds));
+      
+      //Creates a client for making the HTTP GET request
       using (var httpClient = new HttpClient())
       {
         httpClient.BaseAddress = new Uri(productCatalogueBaseUrl);
+        
+        //Tells HttpClient to perform the HTTP GET asynchronously
         return await httpClient.GetAsync(productsResource).ConfigureAwait(false);
       }
     }
