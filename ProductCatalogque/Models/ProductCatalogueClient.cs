@@ -31,7 +31,8 @@ namespace ShoppingCart
       GetShoppingCartItems(int[] productCatalogueIds) =>
       exponentialRetryPolicy
         .ExecuteAsync(async () => await GetItemsFromCatalogueService(productCatalogueIds).ConfigureAwait(false));
-
+    
+    //This method makes calls to the other methods in this class to complete a request and returns translated results
     private async Task<IEnumerable<ShoppingCartItem>>
       GetItemsFromCatalogueService(int[] productCatalogueIds)
     {
